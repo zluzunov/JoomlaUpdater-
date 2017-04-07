@@ -1,10 +1,6 @@
 ﻿namespace MySelenium.Tests.Models
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
 
     public class RegistrationUser
@@ -14,16 +10,16 @@
         private List<bool> _martialStatus;
         private List<bool> _hobbies;
         private string _country;
-        private string _birthYear;
-        private string _birthMonth;
         private string _birthDay;
+        private string _birthMonth;
+        private string _birthYear;
         private string _phoneNumber;
         private string _userName;
         private string _email;
         private string _profilePicturePath;
         private string _about;
         private string _password;
-        private string _passwordRepeat;
+        private string _passwordConfirm;
 
         public RegistrationUser(
             string firstName,
@@ -31,14 +27,33 @@
             List<bool> martialStatus,
             List<bool> hobbies,
             string country,
+            string birthYear,
+            string birthMonth,
+            string birthDay,
             string phoneNumber,
             string userName,
             string email,
+            string picture,
+            string about,
             string password,
-            string passwordRepeat
+            string passwordConfirm
             )
         {
-            
+            _firstName = firstName;
+            _lastName = lastName;
+            _martialStatus = martialStatus;
+            _hobbies = hobbies;
+            _country = country;
+            _birthYear = birthYear;
+            _birthMonth = birthMonth;
+            _birthDay = birthDay;
+            _phoneNumber = phoneNumber;
+            _userName = userName;
+            _email = email;
+            _profilePicturePath = picture;
+            _about = about;
+            _password = password;
+            _passwordConfirm = passwordConfirm;
         }
 
         public string FirstName
@@ -125,10 +140,10 @@
             set { _password = value; }
         }
 
-        public string PasswordRepeat
+        public string PasswordConfirm
         {
-            get { return _passwordRepeat; }
-            set { _passwordRepeat = value; }
+            get { return _passwordConfirm; }
+            set { _passwordConfirm = value; }
         }
     }
 }

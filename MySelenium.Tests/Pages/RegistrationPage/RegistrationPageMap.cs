@@ -13,17 +13,18 @@
                 By.Id("name_3_firstname")
             );
 
-        public IWebElement LirstName => Driver
+        public IWebElement LastName => Driver
             .FindElement(
                 By.Id("name_3_lastname")
             );
 
-        public IWebElement MatrialStatus => Driver
-            .FindElement(
-                By.XPath("//*[@id=>\"pie_register\"]/li[2]/div/div/input[1]")
-            );
+        public List<IWebElement> MatrialStatus => Driver
+            .FindElements(
+                By.Name("radio_4[]")
+            )
+            .ToList();
 
-        public List<IWebElement> Hobbys => Driver
+        public List<IWebElement> Hobbies => Driver
             .FindElements(
                 By.Name("checkbox_5[]")
             )
@@ -36,7 +37,7 @@
                 )
             );
 
-        public SelectElement MountOption => new SelectElement(
+        public SelectElement MonthOption => new SelectElement(
             Driver
             .FindElement(
                 By.Id("mm_date_8")
@@ -57,7 +58,7 @@
                 )
             );
 
-        public IWebElement Telephone => Driver
+        public IWebElement PhoneNumber => Driver
             .FindElement(By.Id("phone_9"));
 
         public IWebElement UserName => Driver
@@ -66,13 +67,39 @@
         public IWebElement Email => Driver
             .FindElement(By.Id("email_1"));
 
-        public IWebElement Description => Driver
+        public IWebElement ProfilePicture => Driver
+            .FindElement(By.Id("profile_pic_10"));
+
+        public IWebElement AboutMe => Driver
             .FindElement(By.Id("description"));
 
         public IWebElement Password => Driver
             .FindElement(By.Id("password_2"));
 
-        public IWebElement ConfirmPassword => Driver
+        public IWebElement PasswordConfirm => Driver
             .FindElement(By.Id("confirm_password_password_2"));
+
+        public IWebElement ButtonSubmit => Driver
+            .FindElement(By.Name("pie_submit"));
+
+        public IWebElement FormErrorFirstLastName => Driver
+            .FindElement(By.XPath("//*[@id=\"pie_register\"]/li[1]/div[1]/div[2]/span"));
+
+        public IWebElement FormErrorHobbies => Driver
+            .FindElement(By.XPath("//*[@id=\"pie_register\"]/li[3]/div/div[2]/span"));
+
+        public IWebElement FormErrorPhone => Driver
+            .FindElement(By.XPath("//*[@id=\"pie_register\"]/li[6]/div/div/span"));
+
+        public IWebElement FormErrorUserName => Driver
+            .FindElement(By.XPath("//*[@id=\"pie_register\"]/li[7]/div/div/span"));
+
+        public IWebElement FormErrorPassword => Driver
+            .FindElement(By.XPath("//*[@id=\"pie_register\"]/li[11]/div/div/span"));
+
+        public IWebElement FormErrorPasswordConfirm => Driver
+            .FindElement(By.XPath("//*[@id=\"pie_register\"]/li[12]/div/div/span"));
+
+
     }
 }
