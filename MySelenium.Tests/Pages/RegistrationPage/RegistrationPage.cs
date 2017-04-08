@@ -42,7 +42,11 @@
 
             WriteValue(Password, user.Password);
             WriteValue(PasswordConfirm, user.PasswordConfirm);
+        }
 
+        public void FillAndSubmit(RegistrationUser user)
+        {
+            Fill(user);
             ButtonSubmit.Click();
         }
 

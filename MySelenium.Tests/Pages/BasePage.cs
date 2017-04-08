@@ -18,6 +18,14 @@
                 .Maximize();
         }
 
+        public void ImplicitWait(int seconds)
+        {
+            _driver
+                .Manage()
+                .Timeouts()
+                .ImplicitWait = TimeSpan.FromSeconds(seconds);
+        }
+
         public IWebDriver Driver => _driver;
 
         public WebDriverWait Wait => _wait;

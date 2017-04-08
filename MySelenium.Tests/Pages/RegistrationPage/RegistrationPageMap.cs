@@ -102,5 +102,11 @@
 
         public IReadOnlyCollection<IWebElement> FormErrorPasswordConfirm => Driver
             .FindElements(By.XPath("//*[@id=\"pie_register\"]/li[12]/div/div/span"));
+
+        public IReadOnlyCollection<IWebElement> FormErrorExistingUserName => Driver
+            .FindElements(By.XPath("//*[@id=\"post-49\"]/div/p"));
+
+        public IWebElement PasswordStrength => Driver
+            .FindElement(By.Id("piereg_passwordStrength"));
     }
 }
