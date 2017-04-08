@@ -82,24 +82,25 @@
         public IWebElement ButtonSubmit => Driver
             .FindElement(By.Name("pie_submit"));
 
-        public IWebElement FormErrorFirstLastName => Driver
-            .FindElement(By.XPath("//*[@id=\"pie_register\"]/li[1]/div[1]/div[2]/span"));
+        public IReadOnlyCollection<IWebElement> FormErrorFirstLastName => Driver
+            .FindElements(By.XPath("//*[@id=\"pie_register\"]/li[1]/div[1]/div[2]/span"));
 
-        public IWebElement FormErrorHobbies => Driver
-            .FindElement(By.XPath("//*[@id=\"pie_register\"]/li[3]/div/div[2]/span"));
+        public IReadOnlyCollection<IWebElement> FormErrorHobbies => Driver
+            .FindElements(By.XPath("//*[@id=\"pie_register\"]/li[3]/div/div[2]/span"));
 
-        public IWebElement FormErrorPhone => Driver
-            .FindElement(By.XPath("//*[@id=\"pie_register\"]/li[6]/div/div/span"));
+        public IReadOnlyCollection<IWebElement> FormErrorPhone => Driver
+            .FindElements(By.XPath("//*[@id=\"pie_register\"]/li[6]/div/div/span"));
 
-        public IWebElement FormErrorUserName => Driver
-            .FindElement(By.XPath("//*[@id=\"pie_register\"]/li[7]/div/div/span"));
+        public IReadOnlyCollection<IWebElement> FormErrorUserName => Driver
+            .FindElements(By.XPath("//*[@id=\"pie_register\"]/li[7]/div/div/span"));
 
-        public IWebElement FormErrorPassword => Driver
-            .FindElement(By.XPath("//*[@id=\"pie_register\"]/li[11]/div/div/span"));
+        public IReadOnlyCollection<IWebElement> FormErrorEmail => Driver
+            .FindElements(By.XPath("//*[@id=\"pie_register\"]/li[8]/div/div/span"));
 
-        public IWebElement FormErrorPasswordConfirm => Driver
-            .FindElement(By.XPath("//*[@id=\"pie_register\"]/li[12]/div/div/span"));
+        public IReadOnlyCollection<IWebElement> FormErrorPassword => Driver
+            .FindElements(By.XPath("//*[@id=\"pie_register\"]/li[11]/div/div/span"));
 
-
+        public IReadOnlyCollection<IWebElement> FormErrorPasswordConfirm => Driver
+            .FindElements(By.XPath("//*[@id=\"pie_register\"]/li[12]/div/div/span"));
     }
 }

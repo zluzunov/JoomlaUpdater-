@@ -54,9 +54,9 @@
 
         private void ClickOnElements(List<IWebElement> elements, List<bool> conditions)
         {
-            for (int i = 0; i < conditions.Count - 1; i++)
+            for (int i = 0; i < conditions.Count; i++)
             {
-                if (!conditions[i])
+                if (conditions[i])
                 {
                     elements[i].Click();
                 }
