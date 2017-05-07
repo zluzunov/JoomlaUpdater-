@@ -17,7 +17,7 @@
             Driver.Navigate().GoToUrl("http://www.demoqa.com/registration");
         }
 
-        public void Fill(RegistrationUser user)
+        public void ActFill(RegistrationUser user)
         {
             WriteValue(FirstName, user.FirstName);
             WriteValue(LastName, user.LastName);
@@ -44,9 +44,10 @@
             WriteValue(PasswordConfirm, user.PasswordConfirm);
         }
 
-        public void FillAndSubmit(RegistrationUser user)
+        public void ActFillAndSubmit(RegistrationUser user)
         {
-            Fill(user);
+            // Fills And Submits the form
+            ActFill(user);
             ButtonSubmit.Click();
         }
 

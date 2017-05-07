@@ -7,6 +7,7 @@
     using Models;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
+    using Pages;
     using Pages.HomePage;
     using Pages.RegistrationPage;
 
@@ -36,8 +37,8 @@
             home.NavigateTo();
             home.RegirstratonButton.Click();
 
-            //Check page title 
-            Assert.AreEqual("Registration | Demoqa", home.Title, "You are not on the registration page!");
+            //Check page title
+            home.AsserTitleIs("Registration | Demoqa");
         }
     }
 
@@ -57,7 +58,7 @@
         private const string ShortPasswordMessage = "* Minimum 8 characters required";
         private const string InvalidEmailAddress = "* Invalid email address";
 
-        private void InitiateUser()
+        private void Arrange()
         {
             _user = new RegistrationUser(
                 firstName: "User1",
@@ -84,7 +85,7 @@
             _chromeDriver = new ChromeDriver();
             _page = new RegistrationPage(_chromeDriver);
             _page.NavigateTo();
-            InitiateUser();
+            Arrange();
         }
 
         [TearDown]
@@ -96,61 +97,53 @@
         [Test,Property("Priority", 0)]
         public void RegisterWithNegativePhone()
         {
-            // short phone number
+            // Arrange - short phone number
             _user.PhoneNumber = "21346";
-            _page.FillAndSubmit(_user);
 
-            var messageElement = _page.FormErrorPhone.ElementAtOrDefault(0);
-            Assert.AreEqual(
-                messageElement != null ? messageElement.Text : "",
-                actual: InvalidAndShortPhoneMessage,
-                message: "No error message when phone is incorrect!"
-                );
+            // Act - fill in form
+            _page.ActFillAndSubmit(_user);
+
+            // Assert
+            _page
+                .FormErrorPhone
+                .AssertFormErrorIs(InvalidAndShortPhoneMessage, "Phone");
         }
 
         [Test, Property("Priority", 1)]
         public void RegisterWithNegativeMail()
         {
-            // email without @
+            // Arrange - email without @
             _user.Email = "badMail.com";
-            _page.FillAndSubmit(_user);
 
-            var messageElement = _page.FormErrorEmail.ElementAtOrDefault(0);
-            Assert.AreEqual(
-                messageElement != null ? messageElement.Text : "",
-                actual: "* Invalid email address",
-                message: "No error message when 'Email' is not valid!"
-                );
+            // Act - fill in form
+            _page.ActFillAndSubmit(_user);
+
+            // Assert
+            _page.FormErrorEmail.AssertFormErrorIs("* Invalid email address", "Email");
         }
 
         [Test, Property("Priority", 2)]
         public void RegisterWithMismatchPasswords()
         {
-            // passwords do not match
+            // Arrange - email without @
             _user.PasswordConfirm = "notMatching";
-            _page.FillAndSubmit(_user);
 
-            var messageElement = _page.FormErrorPasswordConfirm.ElementAtOrDefault(0);
-            Assert.AreEqual(
-                messageElement != null ? messageElement.Text : "",
-                actual: "* Fields do not match", 
-                message: "No error message when passwords do not match!"
-                );
+            // Act - fill in form
+            _page.ActFillAndSubmit(_user);
+
+            // Assert
+            _page.FormErrorPasswordConfirm.AssertFormErrorIs("* Fields do not match", "Repeat Password");
         }
 
         [Test, Property("Priority", 3)]
         public void RegisterWithEmptyUsername()
         {
-            // user name should not be empty
+            // Arrange - user name should not be empty
             _user.UserName = "";
-            _page.FillAndSubmit(_user);
 
-            var messageElement = _page.FormErrorUserName.ElementAtOrDefault(0);
-            Assert.AreEqual(
-                messageElement != null ? messageElement.Text : "", 
-                actual: EmptyFieldMessage, 
-                message: "No error message when 'User Name' is empty!"
-                );
+            _page.ActFillAndSubmit(_user);
+
+            _page.FormErrorUserName.AssertFormErrorIs(EmptyFieldMessage, "User Name");
         }
 
         [Test, Property("Priority", 4)]
@@ -158,14 +151,10 @@
         {
             // no hobbies selected
             _user.Hobbies = new List<bool>(){ false, false, false };
-            _page.FillAndSubmit(_user);
-
-            var messageElement = _page.FormErrorHobbies.ElementAtOrDefault(0);
-            Assert.AreEqual(
-                messageElement != null ? messageElement.Text : "",
-                actual: EmptyFieldMessage,
-                message: "No error message when field 'Hobby' is empty!"
-            );
+            // A
+            _page.ActFillAndSubmit(_user);
+            // A
+            _page.FormErrorHobbies.AssertFormErrorIs(EmptyFieldMessage,"Hobby");
         }
 
         [Test, Property("Priority", 5)]
@@ -173,14 +162,10 @@
         {
             // empty last name
             _user.LastName = "";
-            _page.FillAndSubmit(_user);
 
-            var messageElement = _page.FormErrorFirstLastName.ElementAtOrDefault(0);
-            Assert.AreEqual(
-                messageElement != null ? messageElement.Text : "",
-                actual: EmptyFieldMessage,
-                message: "No error message when field 'Last Name' is empty!"
-            );
+            _page.ActFillAndSubmit(_user);
+
+            _page.FormErrorFirstLastName.AssertFormErrorIs(EmptyFieldMessage,"Last Name");
         }
 
         [Test, Property("Priority", 6)]
@@ -188,29 +173,21 @@
         {
             // empty phone number
             _user.PhoneNumber = "";
-            _page.FillAndSubmit(_user);
 
-            var messageElement = _page.FormErrorPhone.ElementAtOrDefault(0);
-            Assert.AreEqual(
-                messageElement != null ? messageElement.Text : "",
-                actual: EmptyFieldMessage,
-                message: "No error message when field 'Phone' is empty!"
-                );
+            _page.ActFillAndSubmit(_user);
+
+            _page.FormErrorPhone.AssertFormErrorIs(EmptyFieldMessage,"Phone");
         }
 
         [Test, Property("Priority", 7)]
         public void RegisterWithNotDigitsPhone()
         {
-            // no digits
+            // Arrange - no digits
             _user.PhoneNumber = "aaaaaaaaaaa";
-            _page.FillAndSubmit(_user);
 
-            var messageElement = _page.FormErrorPhone.ElementAtOrDefault(0);
-            Assert.AreEqual(
-                messageElement != null ? messageElement.Text : "",
-                actual: InvalidAndShortPhoneMessage,
-                message: "No error message when field 'Phone' does not contain digits!"
-                );
+            _page.ActFillAndSubmit(_user);
+
+            _page.FormErrorPhone.AssertFormErrorIs(InvalidAndShortPhoneMessage,"Phone");
         }
 
         [Test, Property("Priority", 8)]
@@ -218,14 +195,10 @@
         {
             // too long teleophone number
             _user.PhoneNumber = "12345678123456789";
-            _page.FillAndSubmit(_user);
 
-            var messageElement = _page.FormErrorPhone.ElementAtOrDefault(0);
-            Assert.AreEqual(
-                messageElement != null ? messageElement.Text : "",
-                actual: LongPhoneMessage,
-                message: "No error message/incorrect message when field 'Phone' longer then 16 digits!"
-                );
+            _page.ActFillAndSubmit(_user);
+
+            _page.FormErrorPhone.AssertFormErrorIs(LongPhoneMessage,"Phone");
         }
 
         [Test, Property("Priority", 9)]
@@ -233,14 +206,10 @@
         {
             // phone with other characters
             _user.PhoneNumber = "+35999999999";
-            _page.FillAndSubmit(_user);
 
-            var messageElement = _page.FormErrorPhone.ElementAtOrDefault(0);
-            Assert.AreEqual(
-                messageElement != null ? messageElement.Text : "",
-                actual: InvalidAndShortPhoneMessage,
-                message: "No error message when field 'Phone' is not only digits!"
-                );
+            _page.ActFillAndSubmit(_user);
+
+            _page.FormErrorPhone.AssertFormErrorIs(InvalidAndShortPhoneMessage,"Phone");
         }
 
         [Test, Property("Priority", 10)]
@@ -248,33 +217,23 @@
         {
             // short password
             _user.Password = "1";
-            _page.FillAndSubmit(_user);
 
-            var messageElement = _page.FormErrorPassword.ElementAtOrDefault(0);
-            Assert.AreEqual(
-                messageElement != null ? messageElement.Text : "",
-                actual: ShortPasswordMessage,
-                message: "No error message when field 'Password' is less than 8 chars!"
-                );
+            _page.ActFillAndSubmit(_user);
+
+            _page.FormErrorPassword.AssertFormErrorIs(ShortPasswordMessage,"Password");
         }
 
         [Test, Property("Priority", 11)]
         public void RegisterWithExistingUser()
         {
             // Register twice with the same user
-            _page.FillAndSubmit(_user);
-
+            _page.ActFillAndSubmit(_user);
             // change hobbies to prevent error
             _user.Hobbies = new List<bool>(){false, true, false};
 
-            _page.FillAndSubmit(_user);
+            _page.ActFillAndSubmit(_user);
 
-            var messageElement = _page.FormErrorExistingUserName.ElementAtOrDefault(0);
-            Assert.AreEqual(
-                messageElement != null ? messageElement.Text : "",
-                actual: "Error: Username already exists",
-                message: "No error message when existing username has been used!"
-                );
+            _page.FormErrorExistingUserName.AssertFormErrorIs("Error: Username already exists", "User name");
         }
 
         [Test, Property("Priority", 12)]
@@ -284,14 +243,9 @@
             var longEmail = new String('a', 254) + "@260.com";
 
             _user.Email = longEmail;
-            _page.FillAndSubmit(_user);
+            _page.ActFillAndSubmit(_user);
 
-            var messageElement = _page.FormErrorEmail.ElementAtOrDefault(0);
-            Assert.AreEqual(
-                messageElement != null ? messageElement.Text : "",
-                actual: InvalidEmailAddress,
-                message: "No error message when e-mail is longer than 254 chars!"
-                );
+            _page.FormErrorEmail.AssertFormErrorIs(InvalidEmailAddress,"Email");
         }
 
         [Test, Property("Priority", 13)]
@@ -301,14 +255,9 @@
             var wrong = "slslsls@lsl@260.com";
 
             _user.Email = wrong;
-            _page.FillAndSubmit(_user);
+            _page.ActFillAndSubmit(_user);
 
-            var messageElement = _page.FormErrorEmail.ElementAtOrDefault(0);
-            Assert.AreEqual(
-                messageElement != null ? messageElement.Text : "",
-                actual: InvalidEmailAddress,
-                message: "No error message when e-mail has '@' Longer than 254 chars!"
-                );
+            _page.FormErrorEmail.AssertFormErrorIs(InvalidEmailAddress,"Email");
         }
 
         [Test, Property("Priority", 14)]
@@ -317,16 +266,10 @@
             // use very weak password
             _user.Password = "11111111";
             _user.PasswordConfirm = "11111111";
-            _page.Fill(_user);
 
-            var messageElement = _page.PasswordStrength.Text;
-            Assert.AreEqual(
-                messageElement ?? "",
-                actual: "Very weak",
-                message: "No warining message when field 'Password' is very weak!"
-                );
+            _page.ActFill(_user);
 
-            _page.ImplicitWait(0);
+            _page.PasswordStrength.AssertTextErrorIs("Very weak", "Password is very weak");
         }
 
         [Test, Property("Priority", 15)]
@@ -335,14 +278,10 @@
             // use medium password
             _user.Password = "1-aAbB1-";
             _user.PasswordConfirm = "1-aAbB1-";
-            _page.Fill(_user);
 
-            var messageElement = _page.PasswordStrength.Text;
-            Assert.AreEqual(
-                messageElement ?? "",
-                actual: "Medium",
-                message: "No warining message when field 'Password' is of medium strength!"
-                );
+            _page.ActFill(_user);
+
+            _page.PasswordStrength.AssertTextErrorIs("Medium", "Password is of medium strength");
         }
 
         [Test, Property("Priority", 16)]
@@ -351,14 +290,9 @@
             // use weak password
             _user.Password = "1-AAAB1-";
             _user.PasswordConfirm = "1-AAAB1-";
-            _page.Fill(_user);
+            _page.ActFill(_user);
 
-            var messageElement = _page.PasswordStrength.Text;
-            Assert.AreEqual(
-                messageElement ?? "",
-                actual: "Weak",
-                message: "No warining message when field 'Password' is weak!"
-                );
+            _page.PasswordStrength.AssertTextErrorIs("Weak","Password is weak");
         }
 
         [Test, Property("Priority", 17)]
@@ -367,14 +301,10 @@
             // use strong password
             _user.Password = "+x4D*v@5-A66ExW2PE_nQE6MJMqmeGGg";
             _user.PasswordConfirm = "+x4D*v@5-A66ExW2PE_nQE6MJMqmeGGg";
-            _page.Fill(_user);
 
-            var messageElement = _page.PasswordStrength.Text;
-            Assert.AreEqual(
-                messageElement ?? "",
-                actual: "Strong",
-                message: "No warining message when field 'Password' is strong!"
-                );
+            _page.ActFill(_user);
+
+            _page.PasswordStrength.AssertTextErrorIs("Strong", "Password is strong");
         }
 
 
