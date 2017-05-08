@@ -1,6 +1,7 @@
 ﻿namespace MySelenium.Tests.Models
 {
     using System.Collections.Generic;
+    using System.Linq;
 
 
     public class RegistrationUser
@@ -54,6 +55,29 @@
             _about = about;
             _password = password;
             _passwordConfirm = passwordConfirm;
+        }
+
+        public RegistrationUser(List<string> paraList)
+        {
+            _firstName = paraList[0];
+            _lastName = paraList[1];
+
+            List<bool> mStatus = paraList[2].Split(',').Select(bool.Parse).ToList();
+            _martialStatus = mStatus;
+
+            List<bool> hobbiesList = paraList[3].Split(',').Select(bool.Parse).ToList();
+            _hobbies = hobbiesList;
+            _country = paraList[4];
+            _birthYear = paraList[5];
+            _birthMonth = paraList[6];
+            _birthDay = paraList[7];
+            _phoneNumber = paraList[8];
+            _userName = paraList[9];
+            _email = paraList[10];
+            _profilePicturePath = paraList[11];
+            _about = paraList[12];
+            _password = paraList[13];
+            _passwordConfirm = paraList[14];
         }
 
         public string FirstName

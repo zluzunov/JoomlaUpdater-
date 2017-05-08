@@ -28,6 +28,7 @@
             string fieldLabel
         )
         {
+            Assert.IsTrue(element.Displayed);
             Assert.AreEqual(
                 element.Text ?? "",
                 actual: expectedMessage,
