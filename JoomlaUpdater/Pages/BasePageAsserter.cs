@@ -1,7 +1,6 @@
-﻿namespace MySelenium.Tests.Pages
+﻿namespace JoomlaUpdater.Pages
 {
     using NUnit.Framework;
-
 
     public static class BasePageAsserter
     {
