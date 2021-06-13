@@ -10,16 +10,21 @@
 
         static void Main()
         {
-            Console.WriteLine("start site data here");
-        }
+            //set test user and password
+            _userName = "SelenUserzc0skC4fy";
+            _password = "examplePassword";
 
+            //Exaple site data
+            //CheckUrl("https://localhost", "secredDirectory");
+        }
+        
         private static void CheckUrl(string baseUrl, string secretFolder)
         {
             JoomlaUser user = new JoomlaUser(_userName, _password);
 
             JoomlaWebsite website = new JoomlaWebsite(baseUrl, secretFolder, user);
             website.LogIn();
-            website.Update();
+            website.UpdateExtensions();
             website.Close();
         }
     }

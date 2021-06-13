@@ -61,12 +61,12 @@
 
             joomlaUpdate.ButtonUpdateCheck.Click();
             Console.WriteLine("Waiting the check update ...");
-            Thread.Sleep(10000);
+            Thread.Sleep(20000);
 
             if (joomlaUpdate.StartUpdate())
             {
                 Console.WriteLine("Waiting the update ...");
-                Thread.Sleep(10000);
+                Thread.Sleep(30000);
             }
             else
             {
@@ -91,7 +91,7 @@
             {
                 componentsUpdate.ButtonUpdate.Click();
                 Console.WriteLine("Waiting the end ...");
-                Thread.Sleep(60000);
+                Thread.Sleep(40000);
             }
             else
             {
