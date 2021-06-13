@@ -1,5 +1,5 @@
 # JoomlaUpdater
 
-Loggs in the backend of a Jomla website and trigers the update of extensions and the CMS.
+Logs in the backend of a Joomla website and triggers the update of extensions and the CMS.
 
-The use of an IP-restricted joomla admin account is recomanded. See: [Regular Labs IP login](https://regularlabs.com/iplogin).
+The use of an IP-restricted Joomla admin account is recommended. See: [Regular Labs IP login](https://regularlabs.com/iplogin).
